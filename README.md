@@ -1,11 +1,11 @@
 # Giftastic
 NW Bootcamp HW Assignment 6: AJAX 
 
+https://kat3ng.github.io/Giftastic
+
 ### Overview
 
 In this assignment, we were tasked with utilizing the GIPHY API to make a dynamic web page that uses buttons to populate gifs. It also give the user the ability to add their own buttons to the page as well.
-
-![GIPHY](Images/1-giphy.jpg)
 
 
 ### Instructions
