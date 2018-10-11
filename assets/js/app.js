@@ -1,6 +1,6 @@
 // create an array of strings and save it to a variable called`topics`.
 var movies = [
-    "Edward Scissorhands", "Beetlejuice", "The Nightmare Before Christmas", "The Corpse Bride", "Frankenweenie", "Mars Attacks!", "Sweeney Todd", "Sleep Hollow", "Big Fish", "Pee-Wee's Big Adventure"
+    "Edward Scissorhands", "Beetlejuice", "The Nightmare Before Christmas", "The Corpse Bride", "Frankenweenie", "Mars Attacks!", "Sweeney Todd", "Sleepy Hollow", "Big Fish", "Pee-Wee's Big Adventure"
 ];
 //console.log(movies);
 
@@ -24,6 +24,8 @@ function renderButtons() {
         // Adding a class
         userMovie.addClass("movie");
 
+        userMovie.addClass("btn btn--stripe btn--radius");
+
         // Adding another class so we can pause the gifs later
         userMovie.addClass("gif");
 
@@ -39,8 +41,8 @@ function renderButtons() {
         // Added the button to the HTML
         $("#btn-view").append(userMovie);
     }
-    console.log(userMovie);
-    console.log("data-state");
+    // console.log(userMovie);
+
 }
 
 
@@ -49,20 +51,16 @@ function renderButtons() {
 $("#add-movie").on("click", function (event) {
     event.preventDefault();
     var userMovie = $("#movie-input").val().trim();
-    console.log(userMovie);
+    // console.log(userMovie);
     // This line grabs the input from the textbox
     // The movie from the textbox is then added to our array
     movies.push(userMovie);
-    console.log(movies);
+    // console.log(movies);
 
     // Calling renderButtons which handles the processing of our movie array
     renderButtons();
     appendMovie();
 });
-
-// Function for displaying the movie info
-// $(document).on("click", ".movie", alertMovieName);
-
 // Calling the renderButtons function to display the intial buttons
 renderButtons();
 appendMovie();
@@ -72,55 +70,56 @@ appendMovie();
 function appendMovie() {
     $("button").on("click", function () {
         var movie = $(this).attr("data-name");
-        console.log(movie);
+        // console.log(movie);
 
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + movie + "&api_key=fuR6CscpNgfqH8BemuXHuAzAucb6xoo5&limit=5";
-        console.log(queryURL);
+        // console.log(queryURL);
 
         $.ajax({
             url: queryURL,
             method: "GET"
         })
             .then(function (response) {
-                console.log(response);
+                // console.log(response);
 
                 var results = response.data;
                 for (var i = 0; i < results.length; i++) {
                     var movieDiv = $("<div>");
-                    var p = $("<p>").text("Rating: " + results[i].rating);
+
+                    var p = $("<p>");
+
+                    p.text("Rating: " + results[i].rating);
+                    console.log(p);
 
                     var movieImage = $("<img>");
 
                     movieImage.attr("src", results[i].images.fixed_height.url);
+
+                    // movieImage.attr('data-still', results[i].images.fixed_height_still.url)
+
+                    // movieImage.attr('data-animate', results[i].images.fixed_height.url).attr('data-state', 'still');
 
                     movieDiv.append(p);
                     movieDiv.append(movieImage);
                     $("#gifs-appear-here").prepend(movieImage);
                 }
             });
+        // I know that this is the code I will need to set the conditions for whether or not the gif moves.  It will be set to a click event that is tied to the gif class on the incoming result images. 
+        $(".gif").on("click", function () {
+
+            var state = $(this).attr("data-state");
+            // console.log(this);
+            // If the clicked image's state is still, update its src attribute to what its data-animate value is. Then, set the image's data-state to animate
+            if (state === "still") {
+                $(this).attr("src", $(this).data("animate"));
+                $(this).attr("data-state", "animate");
+                // Else set src to the data-still value
+            } else {
+                $(this).attr('src', $(this).data('still'));
+                $(this).attr("data-state", "still");
+            }
+        });
+        $("#movie-input").val("");
+        return false;
     });
 }
-//EVENT LISTENER FOR BUTTON CLICKS ON THE TOPICS - FOR LATER
-
-// // Event handler for user clicking the select-movie button
-// $(".movies").on("click", function (event) {
-//     // Preventing the button from trying to submit the form
-//     event.preventDefault();
-//     // Storing the artist name
-// });
-
-
-$(".gif").on("click", function () {
-
-    var state = $(this).attr("data-state");
-    // If the clicked image's state is still, update its src attribute to what its data-animate value is.
-    // Then, set the image's data-state to animate
-    // Else set src to the data-still value
-    if (state === "still") {
-        $(this).attr("src", $(this).attr("data-animate"));
-        $(this).attr("data-state", "animate");
-    } else {
-        $(this).attr("src", $(this).attr("data-still"));
-        $(this).attr("data-state", "still");
-    }
-});
