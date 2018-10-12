@@ -2,7 +2,7 @@
 var movies = [
     "Edward Scissorhands", "Beetlejuice", "The Nightmare Before Christmas", "The Corpse Bride", "Frankenweenie", "Mars Attacks!", "Sweeney Todd", "Sleepy Hollow", "Big Fish", "Pee-Wee's Big Adventure"
 ];
-//console.log(movies);
+// console.log(movies);
 
 // Generic function for capturing the movie name from the data-attribute
 function alertMovieName() {
@@ -24,10 +24,10 @@ function renderButtons() {
         // Adding a class
         userMovie.addClass("movie");
 
-        userMovie.addClass("btn btn--stripe btn--radius");
+        userMovie.addClass("btn");
 
         // Adding another class so we can pause the gifs later
-        userMovie.addClass("gif");
+        userMovie.addClass("movieGif");
 
         // Added a data-attribute
         userMovie.attr("data-name", movies[i]);
@@ -44,7 +44,6 @@ function renderButtons() {
     // console.log(userMovie);
 
 }
-
 
 // think about on "click"
 // This function handles events where one button is clicked
@@ -89,37 +88,46 @@ function appendMovie() {
                     var p = $("<p>");
 
                     p.text("Rating: " + results[i].rating);
-                    console.log(p);
+                    // console.log(p);
 
                     var movieImage = $("<img>");
 
-                    movieImage.attr("src", results[i].images.fixed_height.url);
+                    // Adding another class so we can pause the gifs 
+                    movieImage.addClass("gif");
 
-                    // movieImage.attr('data-still', results[i].images.fixed_height_still.url)
+                    movieImage.attr("src", results[i].images.fixed_height_still.url);
 
-                    // movieImage.attr('data-animate', results[i].images.fixed_height.url).attr('data-state', 'still');
+                    movieImage.attr('data-still', results[i].images.fixed_height_still.url)
+
+                    movieImage.attr('data-animate', results[i].images.fixed_height.url)
+
+                    movieImage.attr('data-state', 'still');
 
                     movieDiv.append(p);
                     movieDiv.append(movieImage);
                     $("#gifs-appear-here").prepend(movieImage);
+                    // console.log(movieImage);
                 }
-            });
-        // I know that this is the code I will need to set the conditions for whether or not the gif moves.  It will be set to a click event that is tied to the gif class on the incoming result images. 
-        $(".gif").on("click", function () {
 
-            var state = $(this).attr("data-state");
-            // console.log(this);
-            // If the clicked image's state is still, update its src attribute to what its data-animate value is. Then, set the image's data-state to animate
-            if (state === "still") {
-                $(this).attr("src", $(this).data("animate"));
-                $(this).attr("data-state", "animate");
-                // Else set src to the data-still value
-            } else {
-                $(this).attr('src', $(this).data('still'));
-                $(this).attr("data-state", "still");
-            }
-        });
-        $("#movie-input").val("");
-        return false;
+                $(".gif").on("click", function () {
+                    console.log("image-clicked");
+
+                    var state = $(this).attr("data-state");
+                    console.log(this);
+                    // If the clicked image's state is still, update its src attribute to what its data-animate value is. Then, set the image's data-state to animate
+                    if (state === "still") {
+                        $(this).attr("src", $(this).data("animate"));
+                        $(this).attr("data-state", "animate");
+                        // Else set src to the data-still value
+                    } else {
+                        $(this).attr('src', $(this).data('still'));
+                        $(this).attr("data-state", "still");
+                    }
+                });
+                $("#movie-input").val("");
+                return false;
+
+            })
     });
+
 }
