@@ -70,7 +70,7 @@ function appendMovie() {
         var movie = $(this).attr("data-name");
         // console.log(movie);
 
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + movie + "&api_key=fuR6CscpNgfqH8BemuXHuAzAucb6xoo5&limit=10";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + movie + "&api_key=fuR6CscpNgfqH8BemuXHuAzAucb6xoo5&limit=5";
         // console.log(queryURL);
 
         $.ajax({
