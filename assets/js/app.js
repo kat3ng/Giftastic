@@ -5,8 +5,7 @@ var movies = [
 // console.log(movies);
 
 // Generic function for capturing the movie name from the data-attribute
-function alertMovieName() {
-}
+function alertMovieName() {}
 
 // Function for displaying movie data
 function renderButtons() {
@@ -71,13 +70,13 @@ function appendMovie() {
         var movie = $(this).attr("data-name");
         // console.log(movie);
 
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + movie + "&api_key=fuR6CscpNgfqH8BemuXHuAzAucb6xoo5&limit=5";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + movie + "&api_key=fuR6CscpNgfqH8BemuXHuAzAucb6xoo5&limit=10";
         // console.log(queryURL);
 
         $.ajax({
-            url: queryURL,
-            method: "GET"
-        })
+                url: queryURL,
+                method: "GET"
+            })
             .then(function (response) {
                 // console.log(response);
 
